@@ -19,11 +19,11 @@ jobs:
 
       - name: Set Docker repository name for main branch
         if: github.ref == 'refs/heads/main'
-        run: echo "DOCKER_REPOSITORY=inbcm-public-main" >> $GITHUB_ENV
+        run: echo "DOCKER_REPOSITORY=teste" >> $GITHUB_ENV
 
       - name: Set Docker repository name for development branch
         if: github.ref == 'refs/heads/development'
-        run: echo "DOCKER_REPOSITORY=inbcm-public" >> $GITHUB_ENV
+        run: echo "DOCKER_REPOSITORY=teste" >> $GITHUB_ENV
 
       - name: Truncate commit SHA
         run: echo "SHORT_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
@@ -40,4 +40,6 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: latixa12/teste:${{ github.event_name }}-${{ env.SHORT_SHA }}
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_REPOSITORY }}:${{ github.event_name }}-${{ env.SHORT_SHA }}
+            ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_REPOSITORY }}:latest
