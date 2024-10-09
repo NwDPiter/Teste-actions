@@ -25,16 +25,6 @@ jobs:
       run: |
         curl -L -o obatala.zip -H "Accept: application/octet-stream" "$ASSET_URL"
 
-    - name: Delete existing plugin
-      run: |
-        # Desativar o plugin (ignorar erro se não estiver ativo)
-        curl -X POST "$WP_SITE_URL/wp-json/wp/v2/plugins/obatala/deactivate" \
-          -u "$WP_USERNAME:$WP_PASSWORD" || echo "Plugin não está ativo ou não encontrado."
-
-        # Tentar deletar o plugin (ignorar erro se não estiver instalado)
-        curl -X DELETE "$WP_SITE_URL/wp-json/wp/v2/plugins/obatala" \
-          -u "$WP_USERNAME:$WP_PASSWORD" || echo "Plugin não encontrado."
-
     - name: Upload the plugin to WordPress
       run: |
         curl -X POST "$WP_SITE_URL/wp-json/wp/v2/plugins/obatala" \
